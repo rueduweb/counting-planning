@@ -1,5 +1,17 @@
-<form  [formGroup]="form" (ngSubmit)="submit()">
-  <label class="font-medium mx-auto">
+<div
+  class="
+    bg-transparent
+    rounded-xl
+    shadow-xl
+
+    grid
+    grid-cols-1
+    gap-2
+    w-full
+  "
+>
+<form  [formGroup]="form" (ngSubmit)="submit()" class="w-full space-y-5">
+  <label class="w-full flex justify-center text-sm text-taupe-700 font-medium mb-2">
     Ajouter vos dates de service
   </label>
   <hr><br>
@@ -7,13 +19,13 @@
 
     <div class="mb-4">
 
-      <label class="block mb-1">
+      <label class="block text-sm font-medium mb-1">
         Nom
       </label>
 
       <select
         formControlName="name"
-        class="border rounded w-full p-2"
+        class="w-full border rounded-lg p-3"
       >
         <option selected>Sélectionner</option>
         @for(person of personNames(); track person){
@@ -23,20 +35,20 @@
 
     </div>
 
-    <div class="flex gap-2">
+    <div class="flex flex-col sm:flex-row gap-2">
 
       <input
         type="date"
         formControlName="date"
         [min]="minDate"
         [max]="maxDate"
-        class="border rounded px-3 py-2 flex-1"
+        class="border rounded-lg p-3 flex-1"
       />
 
       <button
         type="button"
         (click)="addDate()"
-        class="bg-green-600 text-white px-4 rounded"
+        class="bg-green-600 text-white px-4 py-3 sm:w-auto rounded-lg"
       >
         +
       </button>
@@ -45,36 +57,38 @@
   </div>
   <div class="mt-4">
 
-    <label class="font-medium">
+    <label class="text-sm font-medium">
       Dates sélectionnées
     </label>
 
     <textarea
       readonly
       rows="6"
-      class="w-full border rounded p-2"
+      class="w-full flex justify-between items-center border rounded-lg px-3 py-2 text-sm"
       [value]="datesAsText()"
-    ></textarea>
+    >
+    </textarea>
 
   </div>
-  <div class="flex justify-end gap-3 mt-6">
+  <div class="flex flex-col sm:flex-row justify-end gap-3 mt-6 text-sm">
 
     <button
       type="button"
       (click)="cancel()"
-      class="px-4 py-2 border rounded text-sm"
+      class="w-full sm:w-auto border rounded-lg px-4 py-2"
     >
       Cancel
     </button>
 
     <button
       type="submit"
-      [disabled]="this.form.controls.name.invalid || this.selectedDates().length === 0"
-      class="bg-blue-600 text-white px-4 py-2 rounded text-sm disabled:bg-gray-400"
+      [disabled]="form.controls.name.invalid || selectedDates().length === 0"
+      class="w-full sm:w-auto bg-blue-600 text-white px-4 py-2 rounded-lg text-sm disabled:bg-gray-400"
     >
       Submit
     </button>
 
   </div>
 </form>
+</div>
 
