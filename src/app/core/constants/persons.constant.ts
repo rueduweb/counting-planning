@@ -1,0 +1,19 @@
+export const PERSON_NAMES: string[] = [
+  'Lydwine',
+  'Jacqueline',
+  'Maryannick',
+  'Carole',
+  'Cathy',
+  'Steve',
+  'Gloria',
+  'Françoise',
+  'Marjolaine',
+  'Chan',
+  'Sandra',
+  'Cornélie',
+  'Danièle',
+  'Rhudy',
+  'Stéphanie',
+  'Jocelyne',
+  'Marcelle'
+]

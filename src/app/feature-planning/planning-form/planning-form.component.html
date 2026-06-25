@@ -1,1 +1,80 @@
-<p>planning-form works!</p>
+<form  [formGroup]="form" (ngSubmit)="submit()">
+  <label class="font-medium mx-auto">
+    Ajouter vos dates de service
+  </label>
+  <hr><br>
+  <div class="space-y-2 text-sm">
+
+    <div class="mb-4">
+
+      <label class="block mb-1">
+        Nom
+      </label>
+
+      <select
+        formControlName="name"
+        class="border rounded w-full p-2"
+      >
+        <option value="" selected>Sélectionner</option>
+        @for(person of personNames(); track person){
+          <option value="person">{{person}}</option>
+        }
+      </select>
+
+    </div>
+
+    <div class="flex gap-2">
+
+      <input
+        type="date"
+        formControlName="date"
+        [min]="minDate"
+        [max]="maxDate"
+        class="border rounded px-3 py-2 flex-1"
+      />
+
+      <button
+        type="button"
+        (click)="addDate()"
+        class="bg-green-600 text-white px-4 rounded"
+      >
+        +
+      </button>
+
+    </div>
+  </div>
+  <div class="mt-4">
+
+    <label class="font-medium">
+      Dates sélectionnées
+    </label>
+
+    <textarea
+      readonly
+      rows="6"
+      class="w-full border rounded p-2"
+      [value]="datesAsText()"
+    ></textarea>
+
+  </div>
+  <div class="flex justify-end gap-3 mt-6">
+
+    <button
+      type="button"
+      (click)="cancel()"
+      class="px-4 py-2 border rounded text-sm"
+    >
+      Cancel
+    </button>
+
+    <button
+      type="submit"
+      [disabled]="this.form.controls.name.invalid || this.selectedDates().length === 0"
+      class="bg-blue-600 text-white px-4 py-2 rounded text-sm disabled:bg-gray-400"
+    >
+      Submit
+    </button>
+
+  </div>
+</form>
+

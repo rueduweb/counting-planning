@@ -1,1 +1,85 @@
-<p>planning works!</p>
+<div class="p-8">
+
+  <div class="flex justify-between mb-6">
+
+    <h1 class="text-3xl font-bold">
+      Planning estival du service comptage
+    </h1>
+
+    <button
+      (click)="openModal()"
+      class="bg-blue-600 text-white px-4 py-2 rounded"
+    >
+      Ajouter une personne
+    </button>
+
+  </div>
+
+  <div class="grid grid-cols-3 gap-6">
+
+    @for(month of months(); track month.label){
+
+      <div class="border rounded-lg p-4">
+
+        <h2 class="text-xl font-bold mb-4 uppercase">
+          {{ month.label }}
+        </h2>
+
+        @for(day of month.dates; track day){
+
+          <div class="text-sm border-b py-3">
+
+            <div class="font-semibold">
+              Dimanche {{ day | date:'dd/MM/yyyy' }}
+            </div>
+
+            @let people = getPeopleForDate(day);
+
+            <div
+              [class.text-red-600]="people.length < 4"
+              class="font-small"
+            >
+              {{ people.length }} personnes
+            </div>
+
+            <ul>
+
+              @for(person of people; track person.id){
+
+                <li class="text-xs">
+                  {{ person.name }}
+                </li>
+
+              }
+
+            </ul>
+
+          </div>
+
+        }
+
+      </div>
+
+    }
+
+  </div>
+
+</div>
+
+@if(showModal()){
+
+<div
+  class="fixed inset-0 bg-black/40 flex items-center justify-center"
+>
+
+  <div class="bg-white p-6 rounded-xl w-[700px]">
+
+    <app-planning-form
+      (closed)="closeModal()"
+    />
+
+  </div>
+
+</div>
+
+}
