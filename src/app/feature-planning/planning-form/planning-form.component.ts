@@ -6,6 +6,8 @@ import {
 } from '@angular/forms';
 import { PersonService } from '../../core/services/person.service';
 import { PERSON_NAMES } from '../../core/constants/persons.constant';
+import { dateRangeValidator } from '../../shared/utils/date-range.validator';
+import { sundayValidator } from '../../shared/utils/day.validator';
 @Component({
   selector: 'app-planning-form',
   imports: [ReactiveFormsModule],
@@ -39,12 +41,19 @@ export class PlanningFormComponent {
 
     name: this.fb.nonNullable.control(
       '',
-      Validators.required
+      [Validators.required, Validators.minLength(3)]
     ),
 
     date: this.fb.nonNullable.control(
       '',
-      Validators.required
+      [
+        Validators.required,
+        dateRangeValidator(
+          new Date('2026-07-05'),
+          new Date('2026-09-27')
+        ),
+        sundayValidator()
+      ]
     )
   });
 

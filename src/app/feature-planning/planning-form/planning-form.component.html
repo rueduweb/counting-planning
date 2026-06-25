@@ -27,13 +27,25 @@
         formControlName="name"
         class="w-full border rounded-lg p-3"
       >
-        <option selected>Sélectionner</option>
+        <option selected></option>
         @for(person of personNames(); track person){
           <option [value]="person">{{person}}</option>
         }
       </select>
 
     </div>
+    @if(form.controls.name.touched && form.controls.name.invalid) {
+      @if(form.controls.name.hasError('required')) {
+        <p class="text-red-600 text-xs mt-1">
+          Le nom est obligatoire.
+        </p>
+      }
+      @if(form.controls.name.hasError('minlength')) {
+        <p class="text-red-600 text-xs mt-1">
+          Au moins 3 caractères.
+        </p>
+      }
+    }
 
     <div class="flex flex-col sm:flex-row gap-2">
 
@@ -49,11 +61,28 @@
         type="button"
         (click)="addDate()"
         class="bg-green-600 text-white px-4 py-3 sm:w-auto rounded-lg"
+        [disabled]="form.controls.date.touched &&
+        form.controls.date.errors?.['notSunday']"
       >
         +
       </button>
 
     </div>
+    @if(form.controls.date.hasError('outOfRange')) {
+
+      <p class="text-red-600 text-xs mt-1">
+        La date doit être comprise entre
+        le 05/07/2026 et le 27/09/2026.
+      </p>
+
+    }
+    @if(form.controls.date.touched &&
+        form.controls.date.errors?.['notSunday']) {
+
+      <p class="text-red-500 text-sm mt-1">
+        Seuls les dimanches sont autorisés.
+      </p>
+    }
   </div>
   <div class="mt-4">
 
