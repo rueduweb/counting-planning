@@ -15,9 +15,9 @@
         formControlName="name"
         class="border rounded w-full p-2"
       >
-        <option value="" selected>Sélectionner</option>
+        <option selected>Sélectionner</option>
         @for(person of personNames(); track person){
-          <option value="person">{{person}}</option>
+          <option [value]="person">{{person}}</option>
         }
       </select>
 

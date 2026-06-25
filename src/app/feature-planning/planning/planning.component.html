@@ -2,15 +2,15 @@
 
   <div class="flex justify-between mb-6">
 
-    <h1 class="text-3xl font-bold">
+    <h1 class="text-white text-shadow-md text-3xl font-bold">
       Planning estival du service comptage
     </h1>
 
     <button
       (click)="openModal()"
-      class="bg-blue-600 text-white px-4 py-2 rounded"
+      class="bg-taupe-800 text-white px-4 py-2 rounded"
     >
-      Ajouter une personne
+      Ajouter mes dates
     </button>
 
   </div>
@@ -19,7 +19,7 @@
 
     @for(month of months(); track month.label){
 
-      <div class="border rounded-lg p-4">
+      <div class="bg-white shadow-md rounded-lg p-4">
 
         <h2 class="text-xl font-bold mb-4 uppercase">
           {{ month.label }}
@@ -29,8 +29,8 @@
 
           <div class="text-sm border-b py-3">
 
-            <div class="font-semibold">
-              Dimanche {{ day | date:'dd/MM/yyyy' }}
+            <div class="text-taupe-800 font-semibold">
+              Dimanche le {{ day | date:'dd/MM/yyyy' }}
             </div>
 
             @let people = getPeopleForDate(day);
@@ -39,7 +39,7 @@
               [class.text-red-600]="people.length < 4"
               class="font-small"
             >
-              {{ people.length }} personnes
+              Nb: {{ people.length }}
             </div>
 
             <ul>
@@ -55,13 +55,9 @@
             </ul>
 
           </div>
-
         }
-
       </div>
-
     }
-
   </div>
 
 </div>

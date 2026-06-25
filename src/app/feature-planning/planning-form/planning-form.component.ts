@@ -86,7 +86,11 @@ export class PlanningFormComponent {
       this.form.markAllAsTouched();
       return;
     }
-     this.personService.create({
+
+    console.log('Name: ', this.form.controls.name.value);
+    console.log('Dates: ', this.selectedDates().values());
+
+    this.personService.create({
       name: this.form.controls.name.value,
       dates: this.selectedDates()
     });

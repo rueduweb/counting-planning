@@ -1,3 +1,11 @@
 /* You can add global styles to this file, and also import other style files */
 @use 'tailwindcss';
 
+body {
+  height: 100vh;
+  background-image: url("../public/assets/images/wood-desk.jpg");
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
+  background-attachment: fixed;
+}
