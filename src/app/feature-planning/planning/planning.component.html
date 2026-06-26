@@ -71,7 +71,16 @@
 
                 @for(person of people; track person.id){
 
-                  <li class="bg-taupe-100 flex justify-center text-gray-800 text-xs rounded-sm break-words">
+                  <li class="
+                    bg-taupe-100
+                    flex
+                    justify-center
+                    text-gray-800
+                    text-xs
+                    rounded-sm
+                    break-words
+                    cursor-pointer"
+                    (click)="openModifyForm(person)">
                     {{ person.name }}
                   </li>
 
@@ -100,4 +109,11 @@
 
 </div>
 
+}
+
+@if(showModifyForm()){
+  <app-planning-modify-form
+    [person]="selectedPerson!"
+    (closed)="showModifyForm.set(false)"
+  />
 }

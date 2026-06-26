@@ -5,13 +5,13 @@
 
     <form
       [formGroup]="form"
-      (ngSubmit)="submit()"
+      (ngSubmit)="onSubmit()"
       class="flex flex-col gap-6 p-4 sm:p-6">
 
       <!-- ================= TITLE ================= -->
 
       <label class="text-center text-sm sm:text-base text-taupe-700 font-medium">
-        Ajouter vos dates de service
+        Modifier vos dates de service
       </label>
 
       <hr>
@@ -25,29 +25,16 @@
         </label>
 
         <mat-form-field class="w-full">
-          <mat-label>Select</mat-label>
-          <mat-select formControlName="name">
-            <mat-option selected></mat-option>
-            @for(person of personNames(); track person){
-              <mat-option [value]="person">{{person}}</mat-option>
-            }
-          </mat-select>
+
+          <mat-label>Nom</mat-label>
+
+          <input
+            matInput
+            formControlName="name"
+            readonly>
+
         </mat-form-field>
 
-
-
-        @if(form.controls.name.touched && form.controls.name.invalid) {
-          @if(form.controls.name.hasError('required')) {
-            <p class="text-red-600 text-xs mt-1">
-              Le nom est obligatoire.
-            </p>
-          }
-          @if(form.controls.name.hasError('minlength')) {
-            <p class="text-red-600 text-xs mt-1">
-              Au moins 3 caractères.
-            </p>
-          }
-        }
       </div>
 
       <!-- ================= DATE + ADD ================= -->
@@ -59,10 +46,10 @@
           <mat-label>Date</mat-label>
 
           <input
-              matInput
-              [matDatepickerFilter]="dateFilter"
-              [matDatepicker]="picker"
-              formControlName="date">
+            matInput
+            [matDatepickerFilter]="dateFilter"
+            [matDatepicker]="picker"
+            formControlName="selectedDate">
 
           <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
 
@@ -76,39 +63,23 @@
           type="button"
           (click)="addDate()"
           class="w-full sm:w-14 sm:h-14 h-12 rounded bg-taupe-500 text-white text-xl hover:bg-taupe-700 transition"
-          [disabled]="form.controls.date.touched &&
-          form.controls.date.errors?.['notSunday']"
-        >
+          >
           +
         </button>
 
       </div>
-      @if(form.controls.date.hasError('outOfRange')) {
-
-        <p class="text-red-600 text-xs mt-1">
-          La date doit être comprise entre
-          le 05/07/2026 et le 27/09/2026.
-        </p>
-
-      }
-        @if(form.controls.date.touched &&
-            form.controls.date.errors?.['notSunday']) {
-
-          <p class="text-red-500 text-sm mt-1">
-            Seuls les dimanches sont autorisés.
-          </p>
-        }
 
       <!-- ================= DATES ================= -->
 
       <div>
 
-        @if(selectedDates().length > 0) {<h2 class="text-center text-sm sm:text-base font-bold mb-3">
-            Dates sélectionnées
-        </h2>}
+        <h2 class="text-center text-sm sm:text-base font-bold mb-3">
+          Dates sélectionnées
+        </h2>
 
         <div class="space-y-2">
-          @for(date of selectedDates(); track date; let i = $index){
+
+          @for(control of dates.controls; track $index){
 
             <!-- CARD DATE -->
             <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
@@ -116,7 +87,7 @@
               <!-- DATE DISPLAY -->
               <div class="flex-1 border rounded-lg bg-white px-2 py-3 text-sm text-center sm:text-left">
 
-                  {{ date | date:'dd/MM/yyyy' }}
+                {{ control.value | date:'dd/MM/yyyy' }}
 
               </div>
 
@@ -124,7 +95,7 @@
               <button
                 mat-mini-fab
                 aria-label="supprimer cette date"
-                (click)="removeDate(i)">
+                (click)="removeDate($index)">
                 <mat-icon>close</mat-icon>
               </button>
 
@@ -138,22 +109,20 @@
 
       <!-- ================= ACTIONS ================= -->
 
-      <div class="flex flex-col sm:flex-row justify-end gap-3 mt-6 text-sm">
+      <div class="flex flex-col sm:flex-row justify-end gap-3 pt-2">
 
         <button
           type="button"
           (click)="cancel()"
-          class="w-full cursor-pointer sm:w-auto border rounded-lg px-4 py-2"
-        >
+          class="w-full cursor-pointer sm:w-auto border rounded-lg px-4 py-2">
           Cancel
         </button>
 
         <button
           type="submit"
-          [disabled]="form.controls.name.invalid || selectedDates().length === 0"
-          class="w-full cursor-pointer sm:w-auto bg-green-600 text-white px-4 py-2 rounded-lg text-sm disabled:bg-gray-400"
-        >
-          Submit
+          [disabled]="form.invalid || dates.length === 0"
+          class="w-full cursor-pointer sm:w-auto bg-green-600 text-white rounded-lg px-5 py-2 disabled:bg-gray-400">
+          Modify
         </button>
 
       </div>
@@ -162,4 +131,3 @@
   </div>
 
 </div>
-

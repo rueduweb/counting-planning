@@ -3,10 +3,12 @@ import { CommonModule } from '@angular/common';
 import { PersonService } from '../../core/services/person.service';
 import { generateSundays } from '../../shared/utils/sunday-generator';
 import { PlanningFormComponent } from '../planning-form/planning-form.component';
+import { PlanningModifyFormComponent } from '../planning-modify-form/planning-modify-form.component';
+import { Person } from '../../core/models/person.model';
 
 @Component({
   selector: 'app-planning',
-  imports: [CommonModule, PlanningFormComponent],
+  imports: [CommonModule, PlanningFormComponent, PlanningModifyFormComponent],
   templateUrl: './planning.component.html',
   styleUrl: './planning.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -14,6 +16,10 @@ import { PlanningFormComponent } from '../planning-form/planning-form.component'
 export class PlanningComponent {
 
   private personService = inject(PersonService);
+
+  public selectedPerson!: Person;
+
+  protected showModifyForm = signal(false);
 
   readonly persons = this.personService.persons;
 
@@ -45,12 +51,24 @@ export class PlanningComponent {
     );
   }
 
+  // open modal
   openModal() {
     this.showModal.set(true);
   }
 
   closeModal() {
     this.showModal.set(false);
+  }
+
+  // open modal a person
+  openModifyForm(person: Person) {
+    // copy to avoid modify the signal before validation
+    this.selectedPerson = structuredClone(person);
+    this.showModifyForm.set(true);
+  }
+
+  closeModifyForm(){
+    this.showModifyForm.set(false);
   }
 
 }
