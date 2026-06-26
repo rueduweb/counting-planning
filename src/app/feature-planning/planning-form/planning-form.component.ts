@@ -1,18 +1,38 @@
-import { Component, computed, inject, output, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, output, signal } from '@angular/core';
 import {
   FormBuilder,
   ReactiveFormsModule,
   Validators
 } from '@angular/forms';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatSelectModule } from '@angular/material/select';
+import { CommonModule } from '@angular/common';
+
 import { PersonService } from '../../core/services/person.service';
-import { PERSON_NAMES } from '../../core/constants/persons.constant';
+import { AVAILABLE_DATES, PERSON_NAMES } from '../../core/constants/persons.constant';
 import { dateRangeValidator } from '../../shared/utils/date-range.validator';
 import { sundayValidator } from '../../shared/utils/day.validator';
 @Component({
   selector: 'app-planning-form',
-  imports: [ReactiveFormsModule],
+  imports: [
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatButtonModule,
+    MatIconModule,
+    MatSelectModule,
+    CommonModule
+  ],
   templateUrl: './planning-form.component.html',
-  styleUrl: './planning-form.component.scss'
+  styleUrl: './planning-form.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PlanningFormComponent {
 
@@ -23,6 +43,8 @@ export class PlanningFormComponent {
   private personService = inject(PersonService);
 
   readonly personNames = signal<string[]>(PERSON_NAMES);
+
+  readonly availableDates = signal<Date[]>(AVAILABLE_DATES);
 
   readonly selectedDates = signal<Date[]>([]);
 
@@ -36,6 +58,17 @@ export class PlanningFormComponent {
 
   readonly minDate = '2026-07-05';
   readonly maxDate = '2026-09-27';
+
+  // Utile pour afficher que les dates possibles dans le Mat Datepicker
+  dateFilter = (date: Date | null): boolean => {
+
+    if (!date) return false;
+
+    return this.availableDates().some(d =>
+      d.toDateString() === date.toDateString()
+    );
+
+  };
 
   readonly form = this.fb.group({
 

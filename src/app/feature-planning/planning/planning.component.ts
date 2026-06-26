@@ -1,4 +1,4 @@
-import { Component, computed, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { PersonService } from '../../core/services/person.service';
 import { generateSundays } from '../../shared/utils/sunday-generator';
@@ -8,7 +8,8 @@ import { PlanningFormComponent } from '../planning-form/planning-form.component'
   selector: 'app-planning',
   imports: [CommonModule, PlanningFormComponent],
   templateUrl: './planning.component.html',
-  styleUrl: './planning.component.scss'
+  styleUrl: './planning.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PlanningComponent {
 

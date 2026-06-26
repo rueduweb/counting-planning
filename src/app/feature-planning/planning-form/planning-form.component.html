@@ -23,7 +23,7 @@
         Nom
       </label>
 
-      <select
+      <!-- <select
         formControlName="name"
         class="w-full border rounded-lg p-3"
       >
@@ -31,7 +31,17 @@
         @for(person of personNames(); track person){
           <option [value]="person">{{person}}</option>
         }
-      </select>
+      </select> -->
+
+      <mat-form-field class="w-full">
+        <mat-label>Select</mat-label>
+        <mat-select formControlName="name">
+          <mat-option selected></mat-option>
+           @for(person of personNames(); track person){
+            <mat-option [value]="person">{{person}}</mat-option>
+           }
+        </mat-select>
+      </mat-form-field>
 
     </div>
     @if(form.controls.name.touched && form.controls.name.invalid) {
@@ -49,23 +59,52 @@
 
     <div class="flex flex-col sm:flex-row gap-2">
 
-      <input
+      <!-- <input
         type="date"
         formControlName="date"
         [min]="minDate"
         [max]="maxDate"
         class="border rounded-lg p-3 flex-1"
-      />
+      /> -->
+
+      <mat-form-field class="w-full">
+
+        <mat-label>Date</mat-label>
+
+        <input
+            matInput
+            [matDatepickerFilter]="dateFilter"
+            [matDatepicker]="picker"
+            formControlName="date">
+
+        <mat-datepicker-toggle
+            matSuffix
+            [for]="picker">
+        </mat-datepicker-toggle>
+
+        <mat-datepicker #picker></mat-datepicker>
+
+      </mat-form-field>
 
       <button
         type="button"
         (click)="addDate()"
-        class="bg-green-600 text-white px-4 py-3 sm:w-auto rounded-lg"
+        class="bg-taupe-500 cursor-pointer text-white px-3 py-2 sm:w-auto rounded-sm"
         [disabled]="form.controls.date.touched &&
         form.controls.date.errors?.['notSunday']"
       >
         +
       </button>
+
+      <!-- <button
+        mat-raised-button
+        color="primary"
+        type="button"
+        [disabled]="form.controls.date.touched &&
+        form.controls.date.errors?.['notSunday']"
+        (click)="addDate()">
+        +
+      </button> -->
 
     </div>
     @if(form.controls.date.hasError('outOfRange')) {
@@ -86,7 +125,7 @@
   </div>
   <div class="mt-4">
 
-    <label class="text-sm font-medium">
+   <!--  <label class="text-sm font-medium">
       Dates sélectionnées
     </label>
 
@@ -96,7 +135,42 @@
       class="w-full flex justify-between items-center border rounded-lg px-3 py-2 text-sm"
       [value]="datesAsText()"
     >
-    </textarea>
+    </textarea> -->
+    <h2 class="text-sm font-bold mb-3 text-center">
+        Dates sélectionnées
+    </h2>
+
+    @for(date of selectedDates(); track date; let i = $index){
+
+        <div
+            class="flex items-center mb-4">
+
+            <div
+                class="flex-1 border bg-white py-2 px-3 text-sm font-small">
+
+                {{ date | date:'dd/MM/yyyy' }}
+
+            </div>
+
+            <!-- <button
+                type="button"
+                (click)="removeDate(i)"
+                class="ml-2 bg-red-600 cursor-pointer hover:bg-red-700 text-white text-sm w-10 h-10 rounded">
+
+                <mat-icon>close</mat-icon>
+
+            </button> -->
+
+            <button
+              mat-mini-fab
+              aria-label="supprimer cette date"
+              (click)="removeDate(i)">
+              <mat-icon>close</mat-icon>
+            </button>
+
+        </div>
+
+    }
 
   </div>
   <div class="flex flex-col sm:flex-row justify-end gap-3 mt-6 text-sm">
@@ -104,7 +178,7 @@
     <button
       type="button"
       (click)="cancel()"
-      class="w-full sm:w-auto border rounded-lg px-4 py-2"
+      class="w-full cursor-pointer sm:w-auto border rounded-lg px-4 py-2"
     >
       Cancel
     </button>
@@ -112,7 +186,7 @@
     <button
       type="submit"
       [disabled]="form.controls.name.invalid || selectedDates().length === 0"
-      class="w-full sm:w-auto bg-blue-600 text-white px-4 py-2 rounded-lg text-sm disabled:bg-gray-400"
+      class="w-full cursor-pointer sm:w-auto bg-green-600 text-white px-4 py-2 rounded-lg text-sm disabled:bg-gray-400"
     >
       Submit
     </button>
