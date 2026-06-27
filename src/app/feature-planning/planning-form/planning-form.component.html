@@ -75,7 +75,8 @@
         <button
           type="button"
           (click)="addDate()"
-          class="w-full sm:w-14 sm:h-14 h-12 rounded bg-taupe-500 text-white text-xl hover:bg-taupe-700 transition"
+          class="w-full sm:w-14 sm:h-14 h-12 rounded bg-taupe-500 text-white text-xl hover:bg-taupe-700 transition
+          cursor-pointer"
           [disabled]="form.controls.date.touched &&
           form.controls.date.errors?.['notSunday']"
         >
