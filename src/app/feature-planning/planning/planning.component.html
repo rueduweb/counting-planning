@@ -61,6 +61,7 @@
               @let people = getPeopleForDate(day);
 
               <div
+                [class.text-green-600]="people.length > 4"
                 [class.text-red-600]="people.length < 4"
                 class="text-xs"
               >
