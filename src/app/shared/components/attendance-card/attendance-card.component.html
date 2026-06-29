@@ -1,0 +1,67 @@
+<div
+  class="rounded-lg border-2 bg-white overflow-hidden shadow-sm block mb-4"
+  [class]="state().border">
+
+  <!-- En-tête -->
+  <div class="p-4">
+
+    <div class="flex items-center gap-4 mb-4">
+
+      <div
+        class="flex-1 h-1"
+        [class]="state().bg">
+      </div>
+
+      <span class="text-lg font-bold text-center whitespace-nowrap capitalize">
+        {{ formattedDate() }}
+      </span>
+
+      <div
+        class="flex items-center gap-3"
+        [class]="state().bg">
+      </div>
+
+    </div>
+
+    <div class="flex items-center gap-3">
+
+      <span
+        class="text-sm font-semibold whitespace-nowrap"
+        [class]="state().text">
+
+        Nb de présents : {{ displayedCount() }}
+
+      </span>
+
+      <div class="flex-1 h-2 rounded-full bg-gray-200"></div>
+
+      <span class="attendance-emoji flex items-center justify-center">
+        {{ state().emoji }}
+      </span>
+
+    </div>
+
+  </div>
+
+  <!-- Liste -->
+  <div class="border-t border-gray-200 p-4">
+
+    <div class="grid grid-cols-2 gap-x-12 gap-y-3">
+
+      @for (person of people(); track person.id) {
+
+        <div class="flex justify-between items-center text-sm font-medium">
+
+          <span (click)="callModifyForm(person)" class="cursor-pointer">{{ person.name }}</span>
+
+          <div class="attendance-square bg-gray-300"></div>
+
+        </div>
+
+      }
+
+    </div>
+
+  </div>
+
+</div>

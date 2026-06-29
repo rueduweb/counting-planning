@@ -52,42 +52,15 @@
 
           @for(day of month.dates; track day){
 
-            <div class="text-sm border-b py-3 md:text-base">
+            @let people = getPeopleForDate(day);
 
-              <div class="text-taupe-800 font-semibold">
-                Dimanche le {{ day | date:'dd/MM/yyyy' }}
-              </div>
+            <app-attendance-card
+              [date]="day"
+              [people]="people"
+              [displayedCount]="people.length"
+              (selectedPeople)="openModifyForm($event)"
+            />
 
-              @let people = getPeopleForDate(day);
-
-              <div
-                [class.text-green-600]="people.length > 4"
-                [class.text-red-600]="people.length < 4"
-                class="text-xs"
-              >
-                Nb: {{ people.length }}
-              </div>
-
-              <ul class="mt-2 space-y-1">
-
-                @for(person of people; track person.id){
-
-                  <li class="
-                    bg-taupe-100
-                    flex
-                    justify-center
-                    text-gray-800
-                    text-xs
-                    rounded-sm
-                    break-words
-                    cursor-pointer"
-                    (click)="openModifyForm(person)">
-                    {{ person.name }}
-                  </li>
-
-                }
-              </ul>
-            </div>
           }
         </div>
       }

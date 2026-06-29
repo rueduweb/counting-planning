@@ -5,10 +5,17 @@ import { generateSundays } from '../../shared/utils/sunday-generator';
 import { PlanningFormComponent } from '../planning-form/planning-form.component';
 import { PlanningModifyFormComponent } from '../planning-modify-form/planning-modify-form.component';
 import { Person } from '../../core/models/person.model';
+import { AttendanceCardComponent } from '../../shared/components/attendance-card/attendance-card.component';
+import { Event } from '@angular/router';
 
 @Component({
   selector: 'app-planning',
-  imports: [CommonModule, PlanningFormComponent, PlanningModifyFormComponent],
+  imports: [
+    CommonModule,
+    PlanningFormComponent,
+    PlanningModifyFormComponent,
+    AttendanceCardComponent
+  ],
   templateUrl: './planning.component.html',
   styleUrl: './planning.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -61,7 +68,7 @@ export class PlanningComponent {
   }
 
   // open modal a person
-  openModifyForm(person: Person) {
+  openModifyForm(person: Person): void {
     // copy to avoid modify the signal before validation
     this.selectedPerson = structuredClone(person);
     this.showModifyForm.set(true);
